@@ -231,6 +231,17 @@ require('lazy').setup({
   -- catppuccin
   { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
 
+  -- vimtex
+  {
+    'lervag/vimtex',
+    lazy = false,
+    init = function()
+      vim.g.vimtex_view_method = 'sioyek'
+      vim.conceallevel = 1
+      vim.g.tex_conceal = 'abdmg'
+    end,
+  },
+
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
