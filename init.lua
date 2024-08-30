@@ -237,8 +237,22 @@ require('lazy').setup({
     lazy = false,
     init = function()
       vim.g.vimtex_view_method = 'sioyek'
-      vim.conceallevel = 1
-      vim.g.tex_conceal = 'abdmg'
+      vim.g.tex_flavor = 'latex'
+    end,
+  },
+
+  {
+    'L3MON4D3/LuaSnip',
+    init = function()
+      vim.cmd [[
+        " Use Tab to expand and jump through snippets
+        imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+        smap <silent><expr> <Tab> luasnip#jumpable(1) ? '<Plug>luasnip-jump-next' : '<Tab>'
+
+        " Use Shift-Tab to jump backwards through snippets
+        imap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
+        smap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
+      ]]
     end,
   },
 
@@ -922,6 +936,7 @@ require('lazy').setup({
 })
 
 vim.cmd.colorscheme 'catppuccin'
+require('luasnip.loaders.from_lua').load { paths = '~/.config/nvim/LuaSnip/' }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
