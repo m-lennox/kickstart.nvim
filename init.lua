@@ -238,6 +238,17 @@ require('lazy').setup({
     init = function()
       vim.g.vimtex_view_method = 'sioyek'
       vim.g.tex_flavor = 'latex'
+      vim.g.vimtex_quickfix_mode = 0
+    end,
+  },
+
+  {
+    'sirver/ultisnips',
+    lazy = false,
+    init = function()
+      vim.g.UltiSnipsExpandTrigger = '<tab>'
+      vim.g.UltiSnipsJumpForwardTrigger = '<tab>'
+      vim.g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
     end,
   },
 
@@ -250,7 +261,7 @@ require('lazy').setup({
   --  end,
   --},
 
-  { 'evesdropper/luasnip-latex-snippets.nvim' },
+  --{ 'evesdropper/luasnip-latex-snippets.nvim' },
 
   {
     'KeitaNakamura/tex-conceal.vim',
@@ -260,6 +271,14 @@ require('lazy').setup({
         let g:tex_conceal='abdmg'
         hi Conceal ctermbg=none
       ]]
+    end,
+  },
+
+  -- journal plugin
+  {
+    'jakobkhansen/journal.nvim',
+    config = function()
+      require('journal').setup()
     end,
   },
 
@@ -877,6 +896,7 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+        disable = { 'tex', 'latex' },
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
@@ -947,21 +967,25 @@ require('luasnip.loaders.from_lua').load { paths = '~/.config/nvim/LuaSnip/' }
 
 vim.cmd [[
 " Use Tab to expand and jump through snippets
-imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
-smap <silent><expr> <Tab> luasnip#jumpable(1) ? '<Plug>luasnip-jump-next' : '<Tab>'
+"imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+"smap <silent><expr> <Tab> luasnip#jumpable(1) ? '<Plug>luasnip-jump-next' : '<Tab>'
 
 " Use Shift-Tab to jump backwards through snippets
-imap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
-smap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
+"imap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
+"smap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
+
+setlocal spell
+set spelllang=en_us
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 ]]
-require('luasnip.loaders.from_lua').load { paths = '~/.config/nvim/LuaSnip/' }
-require('luasnip').config.set_config { -- Setting LuaSnip config
+--require('luasnip.loaders.from_lua').load { paths = '~/.config/nvim/LuaSnip/' }
+--require('luasnip').config.set_config { -- Setting LuaSnip config
 
-  -- Enable autotriggered snippets
-  enable_autosnippets = true,
+-- Enable autotriggered snippets
+--enable_autosnippets = true,
 
-  -- Use Tab (or some other key if you prefer) to trigger visual selection
-  store_selection_keys = '<Tab>',
-}
+-- Use Tab (or some other key if you prefer) to trigger visual selection
+--store_selection_keys = '<Tab>',
+--}
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
